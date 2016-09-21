@@ -1,0 +1,30 @@
+<% include header %>
+<p> 用户：<%= user %> <p>
+
+
+  圣经章节:
+  <br>
+  <input type="text" name="biblelog" id = "biblelog">
+  <br>
+
+<button type="button" onclick="loadDoc()">签到</button>
+
+<br>
+<label id="here">here</label>
+<br>
+
+  <script>
+  function loadDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("here").innerHTML = "已签到";
+      }
+    };
+    xhttp.open("GET", "insertBibleLog", true);
+    xhttp.send();
+  }
+  </script>
+
+<a class="btn" href="/logout">退出</a>
+<% include footer %>
