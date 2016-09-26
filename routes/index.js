@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var usr=require('../db/dbConnect');
+var url = require('url');
 
 var homeTitle = "读经签到"
 
@@ -87,14 +88,22 @@ router.route('/home')
   .post(function(req,res) {
         res.send("no action")
     });
- 
+
 
   router.route('/insertBibleLog')
     .get(function(req, res) {
     //  usr.insertBibleLogFun(client, req.cookies.islogin, req.body.biblelog, function (err) {
     //       if(err) throw err;
-           res.send("Insert successfully!")
-    // });
+    var url_parts = url.parse(req.url, true);
+    var theLog = url_parts.query.log;
+    var userName = req.cookies.islogin;
+
+   console.log("get insertBibleLog :" + userName + " " + theLog);
+     usr.insertBibleLogFun(client, userName, theLog, function (err) {
+          if(err) throw err;
+          res.send("Insert successfully!")
+    });
+
     })
     .post(function(req,res) {
       client = usr.connect();

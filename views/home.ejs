@@ -15,14 +15,16 @@
 
   <script>
   function loadDoc() {
+    var log_text = document.getElementById("biblelog").value
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         document.getElementById("here").innerHTML = "已签到";
       }
     };
-    xhttp.open("GET", "insertBibleLog", true);
-    xhttp.send();
+    xhttp.open("GET", "insertBibleLog?log="+log_text, true);
+    xhttp.send()
+  //  xhttp.send("log="+log_text);
   }
   </script>
 
