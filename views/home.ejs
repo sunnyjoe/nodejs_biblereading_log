@@ -1,32 +1,134 @@
-<% include header %>
-<p> 用户：<%= user %> <p>
+
+<html>
 
 
-  圣经章节:
-  <br>
-  <input type="text" name="biblelog" id = "biblelog">
-  <br>
+  <style>
+  body {font-family: "Lato", sans-serif;}
 
-<button type="button" onclick="loadDoc()">签到</button>
+  ul.tab {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+  }
 
-<br>
-<label id="here">here</label>
-<br>
+  /* Float the list items side by side */
+  ul.tab li {float: left;}
+
+  /* Style the links inside the list items */
+  ul.tab li a {
+      display: inline-block;
+      color: black;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      transition: 0.3s;
+      font-size: 17px;
+  }
+
+  /* Change background color of links on hover */
+  ul.tab li a:hover {
+      background-color: #ddd;
+  }
+
+  /* Create an active/current tablink class */
+  ul.tab li a:focus, .active {
+      background-color: #ccc;
+  }
+
+  /* Style the tab content */
+  .tabcontent {
+      display: none;
+      padding: 6px 12px;
+      -webkit-animation: fadeEffect 1s;
+      animation: fadeEffect 1s;
+  }
+
+  @-webkit-keyframes fadeEffect {
+      from {opacity: 0;}
+      to {opacity: 1;}
+  }
+
+  @keyframes fadeEffect {
+      from {opacity: 0;}
+      to {opacity: 1;}
+  }
+
+  .divLogOut {
+      float:right;
+  }
+
+  </style>
+
+  <body>
+
+  <div class="divLogOut">
+  <a class="btn" href="/logout">退出</a>
+  </div>
+
+
+  <h3>读经签到Simple记录系统</h3>
+  <p3><%= user %> 务要时时警醒</p3>
+  <p>
+
+  <ul class="tab">
+    <li><a href="#" class="tablinks" onclick="openCity(event, 'London')">签到</a></li>
+    <li><a href="#" class="tablinks" onclick="openCity(event, 'Paris')">今日签到记录</a></li>
+    <li><a href="#" class="tablinks" onclick="openCity(event, 'Tokyo')">我的签到记录</a></li>
+  </ul>
+
+  <div id="London" class="tabcontent">
+    圣经章节:
+    <br>
+    <input type="text" name="biblelog" id = "biblelog">
+    <br><br>
+    <button type="button" onclick="loadDoc()">签到</button>
+    <label id="here">here</label>
+    <br>
+  </div>
+
+  <div id="Paris" class="tabcontent">
+    <h3>Paris</h3>
+    <p>Paris is the capital of France.</p>
+  </div>
+
+  <div id="Tokyo" class="tabcontent">
+    <h3>Tokyo</h3>
+    <p>Tokyo is the capital of Japan.</p>
+  </div>
 
   <script>
-  function loadDoc() {
-    var log_text = document.getElementById("biblelog").value
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("here").innerHTML = "已签到";
+  function openCity(evt, cityName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
       }
-    };
-    xhttp.open("GET", "insertBibleLog?log="+log_text, true);
-    xhttp.send()
-  //  xhttp.send("log="+log_text);
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " active";
   }
-  </script>
 
-<a class="btn" href="/logout">退出</a>
-<% include footer %>
+    function loadDoc() {
+      var log_text = document.getElementById("biblelog").value
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("here").innerHTML = "已签到";
+        }
+      };
+      xhttp.open("GET", "insertBibleLog?log="+log_text, true);
+    //  xhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+      xhttp.send()
+    //  xhttp.send("log="+log_text);
+    }
+    </script>
+
+  </body>
+
+</html>

@@ -20,27 +20,13 @@ router.get('/', function(req, res) {
         console.log("render home");
         res.render('home', { title: homeTitle, user: res.locals.islogin });
     }else{
-        res.redirect('/login');
+        res.render('login', { title: '用户登录' ,test:res.cookies.islogin});
     }
 });
 
 
 router.route('/login')
     .get(function(req, res) {
-        if(req.session.islogin){
-            res.locals.islogin=req.session.islogin;
-        }
-
-        if(req.cookies.islogin){
-            req.session.islogin=req.cookies.islogin;
-        }
-
-        if(req.cookies.islogin){
-            console.log("render home");
-            res.render('home', { title: homeTitle, user: res.locals.islogin });
-        }else{
-            res.render('login', { title: '用户登录' ,test:res.locals.islogin});
-        }
     })
     .post(function(req, res) {
         client=usr.connect();
@@ -82,12 +68,12 @@ router.route('/home')
         console.log("render home");
         res.render('home', { title: homeTitle, user: res.locals.islogin });
     }else{
-        res.redirect('/');
+        res.redirect('/login');
     }
   })
   .post(function(req,res) {
         res.send("no action")
-    });
+  });
 
 
   router.route('/insertBibleLog')
@@ -113,6 +99,20 @@ router.route('/home')
             res.send("Insert successfully!")
       });
     });
+
+router.route('/getOthersLog')
+    .get(function(req,res){
+            client = usr.connect();
+            console.log("getOthersLog")
+            usr.getBibleLogFun(client, 0, function (err, rows) {
+                  if(err) throw err;
+
+                  for (var i in rows) {
+                      console.log('Post Titles: ', rows[i].name, rows[i].log);
+                  }
+                  res.send(rows);
+      });
+  });
 
 
 router.route('/reg')

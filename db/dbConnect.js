@@ -33,6 +33,15 @@ function insertFun(client , username, password,callback){
     });
 }
 
+function getBibleLogFun(client, beforeTime, callback){
+    client.query('select * from Readinglog', function(err, rows, fields){
+        if( err ){
+            console.log( "error:" + err.message);
+            return err;
+        }
+          callback(err, rows);
+        });
+}
 
 function insertBibleLogFun(client, username, biblelog, callback){
     var current = Date.now() / 1000;
