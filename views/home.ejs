@@ -1,24 +1,18 @@
-
 <html>
-
-
-  <style>
-  body {font-family: "Lato", sans-serif;}
-
-  ul.tab {
+   <style>
+      body {font-family: "Lato", sans-serif;}
+      ul.tab {
       list-style-type: none;
       margin: 0;
       padding: 0;
       overflow: hidden;
       border: 1px solid #ccc;
       background-color: #f1f1f1;
-  }
-
-  /* Float the list items side by side */
-  ul.tab li {float: left;}
-
-  /* Style the links inside the list items */
-  ul.tab li a {
+      }
+      /* Float the list items side by side */
+      ul.tab li {float: left;}
+      /* Style the links inside the list items */
+      ul.tab li a {
       display: inline-block;
       color: black;
       text-align: center;
@@ -26,139 +20,131 @@
       text-decoration: none;
       transition: 0.3s;
       font-size: 17px;
-  }
-
-  /* Change background color of links on hover */
-  ul.tab li a:hover {
+      }
+      /* Change background color of links on hover */
+      ul.tab li a:hover {
       background-color: #ddd;
-  }
-
-  /* Create an active/current tablink class */
-  ul.tab li a:focus, .active {
+      }
+      /* Create an active/current tablink class */
+      ul.tab li a:focus, .active {
       background-color: #ccc;
-  }
-
-  /* Style the tab content */
-  .tabcontent {
+      }
+      /* Style the tab content */
+      .tabcontent {
       display: none;
       padding: 6px 12px;
       -webkit-animation: fadeEffect 1s;
       animation: fadeEffect 1s;
-  }
-
-  th, td{
-   text-align: center;
-   float: center;
-   width: 100px;
-   border-width: 0px;
-   border-bottom: 1px black;
-   border-style: solid;
- }
-
-  @-webkit-keyframes fadeEffect {
+      }
+      th, td{
+      text-align: center;
+      float: center;
+      width: 100px;
+      border-width: 0px;
+      border-bottom: 1px black;
+      border-style: solid;
+      }
+      @-webkit-keyframes fadeEffect {
       from {opacity: 0;}
       to {opacity: 1;}
-  }
-
-  @keyframes fadeEffect {
+      }
+      @keyframes fadeEffect {
       from {opacity: 0;}
       to {opacity: 1;}
-  }
-
-  .divLogOut {
+      }
+      .divLogOut {
       float:right;
-  }
-
-  </style>
-
-  <body>
-
-  <div class="divLogOut">
-  <a class="btn" href="/logout">退出</a>
-  </div>
-
-
-  <h3>读经签到Simple记录系统</h3>
-  <p3>神的儿女：<%= user %></p3>
-  <p>
-
-  <ul class="tab">
-    <li><a href="#" class="tablinks" onclick="openCity(event, 'London')">签到</a></li>
-    <li><a href="#" class="tablinks" onclick="openCity(event, 'Paris')">今日签到记录</a></li>
-    <li><a href="#" class="tablinks" onclick="openCity(event, 'Tokyo')">我的签到记录</a></li>
-  </ul>
-
-  <div id="London" class="tabcontent">
-    圣经章节:
-    <br>
-    <input type="text" name="biblelog" id = "biblelog" placeholder="圣经章节" >
-    <br><br>
-    <button type="button" onclick="loadDoc()">签到</button>
-    <br>
-    <label id="here"></label>
-    <br>
-  </div>
-
-  <div id="Paris" class="tabcontent">
-    <table id="myTable">
-    <th>成员</th>
-<th>章节</th>
-<th>日期</th>
-
-  <tr>
-    <td>晓晴</td>
-    <td>Row1 cell2</td>
-    <td>Row1 cell3</td>
-  </tr>
-
-</table>
-  </div>
-
-  <div id="Tokyo" class="tabcontent">
-    <h3>Tokyo</h3>
-    <p>Tokyo is the capital of Japan.</p>
-  </div>
-
-  <script>
-  function tableOperation() {
-    var table = document.getElementById("myTable");
-    var row = table.insertRow(0);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    cell1.innerHTML = "NEW CELL1";
-    cell2.innerHTML = "NEW CELL2";
-  }
-
-  function openCity(evt, cityName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-          tabcontent[i].style.display = "none";
       }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-          tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(cityName).style.display = "block";
-      evt.currentTarget.className += " active";
-  }
+   </style>
+   <body>
+      <div class="divLogOut">
+         <a class="btn" href="/logout">退出</a>
+      </div>
+      <h3>读经签到Simple记录系统</h3>
+      <p3>神的儿女：<%= user %></p3>
+      <p>
+      <ul class="tab">
+         <li><a href="#" class="tablinks" onclick="openCity(event, 'London')">签到</a></li>
+         <li><a href="#" class="tablinks" onclick="openCity(event, 'Paris')">今日签到记录</a></li>
+         <li><a href="#" class="tablinks" onclick="openCity(event, 'Tokyo')">我的签到记录</a></li>
+      </ul>
+      <div id="London" class="tabcontent">
+         圣经章节:
+         <br>
+         <input type="text" name="biblelog" id = "biblelog" placeholder="圣经章节" >
+         <br><br>
+         <button type="button" onclick="loadDoc()">签到</button>
+         <br>
+         <label id="here"></label>
+         <br>
+      </div>
+      <div id="Paris" class="tabcontent">
+         <button type="button" width= 50px onclick="reloadTodayLog()">刷新</button>
+         <table id="myTable">
+            <th>成员</th>
+            <th>章节</th>
+            <th>日期</th>
+            <!-- <tr>
+               <td>晓晴</td>
+               <td>Row1 cell2</td>
+               <td>Row1 cell3</td>
+            </tr> -->
+         </table>
+      </div>
+      <div id="Tokyo" class="tabcontent">
+         <h3>Tokyo</h3>
+         <p>Tokyo is the capital of Japan.</p>
+      </div>
+      <script>
+         function reloadTodayLog(){
+           var xhttp = new XMLHttpRequest();
+           xhttp.onreadystatechange = function() {
+             if (this.readyState == 4 && this.status == 200) {
+               document.getElementById("biblelog").value = "";
+             }
+           };
+           xhttp.open("GET", "getOthersLog", true);
+           xhttp.send()
+         }
+         
+         function tableOperation() {
+           var table = document.getElementById("myTable");
+           var row = table.insertRow(0);
+           var cell1 = row.insertCell(0);
+           var cell2 = row.insertCell(1);
+           cell1.innerHTML = "NEW CELL1";
+           cell2.innerHTML = "NEW CELL2";
+         }
 
-    function loadDoc() {
-      var log_text = document.getElementById("biblelog").value
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          document.getElementById("biblelog").value = "";
-          alert("已记录");
-        }
-      };
-      xhttp.open("GET", "insertBibleLog?log="+log_text, true);
-    //  xhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
-      xhttp.send()
-    //  xhttp.send("log="+log_text);
-    }
-    </script>
+           function loadDoc() {
+             var log_text = document.getElementById("biblelog").value
+             var xhttp = new XMLHttpRequest();
+             xhttp.onreadystatechange = function() {
+               if (this.readyState == 4 && this.status == 200) {
+                 document.getElementById("biblelog").value = "";
+                 alert("已记录");
+               }
+             };
+             xhttp.open("GET", "insertBibleLog?log="+log_text, true);
+           //  xhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+             xhttp.send()
+           //  xhttp.send("log="+log_text);
+           }
 
-  </body>
+           function openCity(evt, cityName) {
+               var i, tabcontent, tablinks;
+               tabcontent = document.getElementsByClassName("tabcontent");
+               for (i = 0; i < tabcontent.length; i++) {
+                   tabcontent[i].style.display = "none";
+               }
+               tablinks = document.getElementsByClassName("tablinks");
+               for (i = 0; i < tablinks.length; i++) {
+                   tablinks[i].className = tablinks[i].className.replace(" active", "");
+               }
+               document.getElementById(cityName).style.display = "block";
+               evt.currentTarget.className += " active";
+           }
 
+      </script>
+   </body>
 </html>
