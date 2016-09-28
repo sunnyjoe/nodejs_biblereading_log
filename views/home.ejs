@@ -46,6 +46,15 @@
       animation: fadeEffect 1s;
   }
 
+  th, td{
+   text-align: center;
+   float: center;
+   width: 100px;
+   border-width: 0px;
+   border-bottom: 1px black;
+   border-style: solid;
+ }
+
   @-webkit-keyframes fadeEffect {
       from {opacity: 0;}
       to {opacity: 1;}
@@ -82,7 +91,7 @@
   <div id="London" class="tabcontent">
     圣经章节:
     <br>
-    <input type="text" name="biblelog" id = "biblelog">
+    <input type="text" name="biblelog" id = "biblelog" placeholder="圣经章节" >
     <br><br>
     <button type="button" onclick="loadDoc()">签到</button>
     <br>
@@ -91,8 +100,18 @@
   </div>
 
   <div id="Paris" class="tabcontent">
-    <h3>Paris</h3>
-    <p>Paris is the capital of France.</p>
+    <table id="myTable">
+    <th>成员</th>
+<th>章节</th>
+<th>日期</th>
+
+  <tr>
+    <td>晓晴</td>
+    <td>Row1 cell2</td>
+    <td>Row1 cell3</td>
+  </tr>
+
+</table>
   </div>
 
   <div id="Tokyo" class="tabcontent">
@@ -101,6 +120,15 @@
   </div>
 
   <script>
+  function tableOperation() {
+    var table = document.getElementById("myTable");
+    var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    cell1.innerHTML = "NEW CELL1";
+    cell2.innerHTML = "NEW CELL2";
+  }
+
   function openCity(evt, cityName) {
       var i, tabcontent, tablinks;
       tabcontent = document.getElementsByClassName("tabcontent");
@@ -120,7 +148,8 @@
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-          document.getElementById("here").innerHTML = "已记录";
+          document.getElementById("biblelog").value = "";
+          alert("已记录");
         }
       };
       xhttp.open("GET", "insertBibleLog?log="+log_text, true);

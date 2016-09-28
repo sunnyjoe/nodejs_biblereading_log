@@ -46,7 +46,7 @@ router.route('/login')
                 }else
                 {
                    console.log("no user");
-                    res.redirect('/login');
+                    res.redirect('/');
                 }
             }
         });
@@ -72,7 +72,7 @@ router.route('/home')
         console.log("render home");
         res.render('home', { title: homeTitle, user: res.locals.islogin });
     }else{
-        res.redirect('/login');
+        res.redirect('/');
     }
   })
   .post(function(req,res) {
@@ -121,7 +121,7 @@ router.route('/reg')
               if(err) throw err;
 
             //  res.send('注册成功');
-              res.redirect('/login');
+              res.redirect('/');
         });
     });
 
