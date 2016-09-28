@@ -20,13 +20,15 @@ router.get('/', function(req, res) {
         console.log("render home");
         res.render('home', { title: homeTitle, user: res.locals.islogin });
     }else{
-        res.render('login', { title: '用户登录' ,test:res.cookies.islogin});
-    }
+        console.log("render login");
+        res.render('login', { title: homeTitle, user: res.locals.islogin });
+   }
 });
 
 
 router.route('/login')
     .get(function(req, res) {
+      res.send('ok')
     })
     .post(function(req, res) {
         client=usr.connect();
@@ -36,15 +38,17 @@ router.route('/login')
                 res.send('没有该用户');
             }else{
                 if(result[0].password===req.body.password){
+                    console.log("find user");
                     req.session.islogin=req.body.username;
                     res.locals.islogin=req.session.islogin;
                     res.cookie('islogin',res.locals.islogin,{maxAge:60000});
                     res.redirect('/home');
                 }else
                 {
+                   console.log("no user");
                     res.redirect('/login');
                 }
-               }
+            }
         });
     });
 
@@ -76,28 +80,19 @@ router.route('/home')
   });
 
 
-  router.route('/insertBibleLog')
+router.route('/insertBibleLog')
     .get(function(req, res) {
-    //  usr.insertBibleLogFun(client, req.cookies.islogin, req.body.biblelog, function (err) {
-    //       if(err) throw err;
     var url_parts = url.parse(req.url, true);
     var theLog = url_parts.query.log;
-    var userName = req.cookies.islogin;
+    var userName = req.session.islogin;
 
-   console.log("get insertBibleLog :" + userName + " " + theLog);
      usr.insertBibleLogFun(client, userName, theLog, function (err) {
           if(err) throw err;
           res.send("Insert successfully!")
     });
-
     })
     .post(function(req,res) {
-      client = usr.connect();
-
-       usr.insertBibleLogFun(client, req.cookies.islogin, req.body.biblelog, function (err) {
-            if(err) throw err;
-            res.send("Insert successfully!")
-      });
+      res.send("no post")
     });
 
 router.route('/getOthersLog')

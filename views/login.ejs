@@ -1,11 +1,7 @@
 <%- include header %>
 <div class="container">
-    <form class="col-sm-offset-4 col-sm-4 form-horizontal" role="form" method="post">
+    <form class="col-sm-offset-4 col-sm-4 form-horizontal" role="form" method="post" action="/login">
         <fieldset>
-        <% if(locals.islogin) { %>
-           用户：<h3> <%= test %></h3>已经登陆。<br>
-           <a class="btn" href="/logout">登出</a>
-            <% } else{ %>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="username">用户名</label>
                 <div class="col-sm-9">
@@ -23,7 +19,6 @@
                     <button type="submit" class="btn btn-primary">登录</button>
                 </div>
             </div>
-            <% } %>
         </fieldset>
     </form>
 </div>

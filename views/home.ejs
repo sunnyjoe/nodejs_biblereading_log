@@ -70,7 +70,7 @@
 
 
   <h3>读经签到Simple记录系统</h3>
-  <p3><%= user %> 务要时时警醒</p3>
+  <p3>神的儿女：<%= user %></p3>
   <p>
 
   <ul class="tab">
@@ -85,7 +85,8 @@
     <input type="text" name="biblelog" id = "biblelog">
     <br><br>
     <button type="button" onclick="loadDoc()">签到</button>
-    <label id="here">here</label>
+    <br>
+    <label id="here"></label>
     <br>
   </div>
 
@@ -119,7 +120,7 @@
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-          document.getElementById("here").innerHTML = "已签到";
+          document.getElementById("here").innerHTML = "已记录";
         }
       };
       xhttp.open("GET", "insertBibleLog?log="+log_text, true);

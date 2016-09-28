@@ -46,7 +46,7 @@ function getBibleLogFun(client, beforeTime, callback){
 function insertBibleLogFun(client, username, biblelog, callback){
     var current = Date.now() / 1000;
     current = Math.floor(current);
-    console.log(username + biblelog + current);
+    console.log("insertBibleLogFun " + username + biblelog + current);
     client.query('insert into Readinglog values(?,?,?)', [username, biblelog, current], function(err,result){
         if( err ){
             console.log( "error:" + err.message);
