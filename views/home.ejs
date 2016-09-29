@@ -88,8 +88,9 @@
                <td>晓晴</td>
                <td>Row1 cell2</td>
                <td>Row1 cell3</td>
-            </tr> -->
+               </tr> -->
          </table>
+         <div id="id01"></div>
       </div>
       <div id="Tokyo" class="tabcontent">
          <h3>Tokyo</h3>
@@ -100,13 +101,30 @@
            var xhttp = new XMLHttpRequest();
            xhttp.onreadystatechange = function() {
              if (this.readyState == 4 && this.status == 200) {
-               document.getElementById("biblelog").value = "";
-             }
-           };
+                 parseJsonToTable(this.responseText);
+             }};
            xhttp.open("GET", "getOthersLog", true);
            xhttp.send()
          }
-         
+
+         function parseJsonToTable(response) {
+           var arr = JSON.parse(response);
+           var i;
+           var out = "<table>";
+
+           for(i = 0; i < arr.length; i++) {
+              out += "<tr><td>" +
+                arr[i].name +
+                "</td><td>" +
+                arr[i].log +
+                "</td><td>" +
+                arr[i].date +
+                "</td></tr>";
+           }
+              out += "</table>";
+              document.getElementById("id01").innerHTML = out;
+         }
+
          function tableOperation() {
            var table = document.getElementById("myTable");
            var row = table.insertRow(0);

@@ -99,13 +99,10 @@ router.route('/getOthersLog')
     .get(function(req,res){
             client = usr.connect();
             console.log("getOthersLog")
-            usr.getBibleLogFun(client, 0, function (err, rows) {
+            usr.queryBibleLogFun(client, function (err, rows) {
                   if(err) throw err;
 
-                  for (var i in rows) {
-                      console.log('Post Titles: ', rows[i].name, rows[i].log);
-                  }
-                  res.send(rows);
+                  res.json(rows);
       });
   });
 

@@ -23,7 +23,7 @@ function  selectFun(client,username,callback){
     });
 }
 
-function insertFun(client , username, password,callback){
+function insertFun(client, username, password, callback){
     client.query('insert into UserInfo values(?,?)', [password, username], function(err,result){
         if( err ){
             console.log( "error:" + err.message);
@@ -33,13 +33,10 @@ function insertFun(client , username, password,callback){
     });
 }
 
-function getBibleLogFun(client, beforeTime, callback){
-    client.query('select * from Readinglog', function(err, rows, fields){
-        if( err ){
-            console.log( "error:" + err.message);
-            return err;
-        }
-          callback(err, rows);
+function queryBibleLogFun(client, callback){
+    client.query('select * from Readinglog', function(err, results, fields){
+        if( err ) throw err;
+        callback(err, results);
         });
 }
 
@@ -47,7 +44,7 @@ function insertBibleLogFun(client, username, biblelog, callback){
     var current = Date.now() / 1000;
     current = Math.floor(current);
     console.log("insertBibleLogFun " + username + biblelog + current);
-    client.query('insert into Readinglog values(?,?,?)', [username, biblelog, current], function(err,result){
+    client.query('insert into Readinglog values(?,?,?,?)', [, username, biblelog, current], function(err,result){
         if( err ){
             console.log( "error:" + err.message);
             return err;
@@ -60,3 +57,4 @@ exports.connect = connectServer;
 exports.selectFun  = selectFun;
 exports.insertFun = insertFun;
 exports.insertBibleLogFun = insertBibleLogFun;
+exports.queryBibleLogFun = queryBibleLogFun;
