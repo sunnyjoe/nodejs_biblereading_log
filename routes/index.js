@@ -28,7 +28,7 @@ router.get('/', function(req, res) {
 
 router.route('/login')
     .get(function(req, res) {
-      res.send('ok')
+      res.redirect('/');
     })
     .post(function(req, res) {
         client=usr.connect();
@@ -51,7 +51,6 @@ router.route('/login')
             }
         });
     });
-
 
 router.get('/logout', function(req, res) {
     res.clearCookie('islogin');
@@ -98,14 +97,21 @@ router.route('/insertBibleLog')
 router.route('/getOthersLog')
     .get(function(req,res){
             client = usr.connect();
-            console.log("getOthersLog")
             usr.queryBibleLogFun(client, function (err, rows) {
                   if(err) throw err;
-
                   res.json(rows);
       });
   });
 
+  router.route('/getMyLog')
+      .get(function(req,res){
+              client = usr.connect();
+              var userName = req.session.islogin;
+              usr.queryMyBibleLogFun(client, userName, function (err, rows) {
+                    if(err) throw err;
+                    res.json(rows);
+        });
+    });
 
 router.route('/reg')
     .get(function(req,res){

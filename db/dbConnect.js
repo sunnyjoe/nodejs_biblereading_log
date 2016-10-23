@@ -33,8 +33,23 @@ function insertFun(client, username, password, callback){
     });
 }
 
+function queryMyBibleLogFun(client, userName, callback){
+    client.query('select * from Readinglog where name ="'+userName+'"', function(err, results, fields){
+        if( err ) throw err;
+        callback(err, results);
+        });
+}
+
 function queryBibleLogFun(client, callback){
-    client.query('select * from Readinglog', function(err, results, fields){
+    var d = new Date();
+    d.setHours(0,0,0,0);
+
+    var today = d.getTime() / 1000;
+    today = Math.floor(today);
+
+    console.log("queryBibleLogFun " + today);
+
+    client.query('select * from Readinglog where date >="'+today+'"', function(err, results, fields){
         if( err ) throw err;
         callback(err, results);
         });
@@ -58,3 +73,4 @@ exports.selectFun  = selectFun;
 exports.insertFun = insertFun;
 exports.insertBibleLogFun = insertBibleLogFun;
 exports.queryBibleLogFun = queryBibleLogFun;
+exports.queryMyBibleLogFun = queryMyBibleLogFun;

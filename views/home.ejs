@@ -61,14 +61,14 @@
          <a class="btn" href="/logout">退出</a>
       </div>
       <h3>读经签到Simple记录系统</h3>
-      <p3>神的儿女：<%= user %></p3>
+      <p3>用户：<%= user %></p3>
       <p>
       <ul class="tab">
-         <li><a href="#" class="tablinks" onclick="openCity(event, 'London')">签到</a></li>
-         <li><a href="#" class="tablinks" onclick="openCity(event, 'Paris')">今日签到记录</a></li>
-         <li><a href="#" class="tablinks" onclick="openCity(event, 'Tokyo')">我的签到记录</a></li>
+         <li><a href="#" class="tablinks" onclick="openCity(event, 'first')" id="firstTab">签到</a></li>
+         <li><a href="#" class="tablinks" onclick="openCity(event, 'second')">今日签到记录</a></li>
+         <li><a href="#" class="tablinks" onclick="openCity(event, 'third')">我的签到记录</a></li>
       </ul>
-      <div id="London" class="tabcontent">
+      <div id="first" class="tabcontent">
          圣经章节:
          <br>
          <input type="text" name="biblelog" id = "biblelog" placeholder="圣经章节" >
@@ -78,52 +78,71 @@
          <label id="here"></label>
          <br>
       </div>
-      <div id="Paris" class="tabcontent">
+      <div id="second" class="tabcontent">
          <button type="button" width= 50px onclick="reloadTodayLog()">刷新</button>
          <table id="myTable">
             <th>成员</th>
             <th>章节</th>
             <th>日期</th>
-            <!-- <tr>
-               <td>晓晴</td>
-               <td>Row1 cell2</td>
-               <td>Row1 cell3</td>
-               </tr> -->
          </table>
          <div id="id01"></div>
       </div>
-      <div id="Tokyo" class="tabcontent">
-         <h3>Tokyo</h3>
-         <p>Tokyo is the capital of Japan.</p>
+
+      <div id="third" class="tabcontent">
+        <button type="button" width= 50px onclick="reloadMineLog()">刷新</button>
+        <table id="myTable2">
+           <th>章节</th>
+           <th>日期</th>
+        </table>
+        <div id="id02"></div>
       </div>
+
+
       <script>
-         function reloadTodayLog(){
+          document.getElementById('firstTab').click();
+
+          function reloadMineLog(){
            var xhttp = new XMLHttpRequest();
            xhttp.onreadystatechange = function() {
              if (this.readyState == 4 && this.status == 200) {
-                 parseJsonToTable(this.responseText);
+                 parseJsonToTable(this.responseText, "id02");
+             }};
+           xhttp.open("GET", "getMyLog", true);
+           xhttp.send()
+         }
+
+          function reloadTodayLog(){
+           var xhttp = new XMLHttpRequest();
+           xhttp.onreadystatechange = function() {
+             if (this.readyState == 4 && this.status == 200) {
+                 parseJsonToTable(this.responseText, "id01");
              }};
            xhttp.open("GET", "getOthersLog", true);
            xhttp.send()
          }
 
-         function parseJsonToTable(response) {
+         function parseJsonToTable(response, tableId) {
            var arr = JSON.parse(response);
            var i;
            var out = "<table>";
 
            for(i = 0; i < arr.length; i++) {
-              out += "<tr><td>" +
-                arr[i].name +
-                "</td><td>" +
-                arr[i].log +
-                "</td><td>" +
-                arr[i].date +
-                "</td></tr>";
+              out += "<tr>";
+              if (tableId == "id01") {
+                out += "<td>" + arr[i].name + "</td>";
+              }
+              out += "<td>" + arr[i].log + "</td>"
+                + "<td>" + intToTimeStr(arr[i].date) + "</td>"
+                +"</tr>";
            }
               out += "</table>";
-              document.getElementById("id01").innerHTML = out;
+              document.getElementById(tableId).innerHTML = out;
          }
+
+         function intToTimeStr(theTime) {
+           var  myDate = new Date(1000*theTime);
+           return myDate.toLocaleTimeString();
+        }
 
          function tableOperation() {
            var table = document.getElementById("myTable");
@@ -144,12 +163,10 @@
                }
              };
              xhttp.open("GET", "insertBibleLog?log="+log_text, true);
-           //  xhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
              xhttp.send()
-           //  xhttp.send("log="+log_text);
            }
 
-           function openCity(evt, cityName) {
+           function openCity(evt, tabName) {
                var i, tabcontent, tablinks;
                tabcontent = document.getElementsByClassName("tabcontent");
                for (i = 0; i < tabcontent.length; i++) {
@@ -159,8 +176,11 @@
                for (i = 0; i < tablinks.length; i++) {
                    tablinks[i].className = tablinks[i].className.replace(" active", "");
                }
-               document.getElementById(cityName).style.display = "block";
+               document.getElementById(tabName).style.display = "block";
                evt.currentTarget.className += " active";
+
+               reloadMineLog();
+               reloadTodayLog();
            }
 
       </script>
