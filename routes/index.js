@@ -121,7 +121,7 @@ router.route('/reg')
         client = usr.connect();
         console.log("get register poster")
         usr.insertFun(client,req.body.username, req.body.password2, function (err) {
-              if(err) throw err;
+              if(err) res.send('该用户名已经存在，请返回重新注册');;
 
             //  res.send('注册成功');
               res.redirect('/');

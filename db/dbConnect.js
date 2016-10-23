@@ -27,7 +27,7 @@ function insertFun(client, username, password, callback){
     client.query('insert into UserInfo values(?,?)', [password, username], function(err,result){
         if( err ){
             console.log( "error:" + err.message);
-            return err;
+            callback(err)
         }
           callback(err);
     });

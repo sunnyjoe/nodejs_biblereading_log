@@ -1,7 +1,37 @@
-<%- include header %>
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+header{
+   float:center;
+   text-align:center;
+}
+
+nav {
+float:right;
+}
+
+form{
+   float:center;
+   text-align:center;
+}
+
+</style>
+
+<meta charset="UTF-8"/>
+<title>Test</title>
+<link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<header>
+<h3><%= title %></h3>
+</header>
+
+<article>
+
 <div class="container">
     <form class=" col-sm-offset-4 col-sm-4 form-horizontal" role="form" method="post">
-        <fieldset>
 
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="username">用户名</label>
@@ -20,7 +50,14 @@
                     <button type="submit" class="btn btn-primary">注册</button>
                 </div>
             </div>
-        </fieldset>
-    </form>
+     </form>
 </div>
-<%- include footer %>
+
+<br><br>
+<span><a title="登陆" href="/login">返回登录</a></span>
+
+
+
+</article>
+</body>
+</html>
