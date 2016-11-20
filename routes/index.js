@@ -6,7 +6,7 @@ const url = require('url');
 const heorkuDbUrl = 'postgresql-rigid-68995';
 const pg = require('pg');
 const path = require('path');
-const connectionString = process.env.heorkuDbUrl || 'postgres://localhost:5432/biblereading';
+const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/biblereading';
 
 
 var homeTitle = "读经签到"
@@ -22,6 +22,7 @@ router.get('/pg', function(req, res) {
      return res.status(500).json({success: false, data: err});
    }
    // SQL Query > Insert Data
+   res.render('home');
 
   });
 
