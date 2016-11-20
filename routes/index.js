@@ -55,24 +55,38 @@ router.route('/login')
     })
     .post(function(req, res) {
         client=usr.connect();
-        result=null;
-        usr.selectFun(client,req.body.username, function (result) {
-            if(result[0]===undefined){
-                res.send('没有该用户');
-            }else{
-                if(result[0].password===req.body.password){
-                    console.log("find user");
-                    req.session.islogin=req.body.username;
-                    res.locals.islogin=req.session.islogin;
-                    res.cookie('islogin',res.locals.islogin,{maxAge:60000});
-                    res.redirect('/home');
-                }else
-                {
-                   console.log("no user");
-                    res.redirect('/');
-                }
-            }
+
+        username = req.body.username
+        pg.connect(connectionString, (err, client, done) => {
+        // Handle connection errors
+        if(err) {
+          res.send('没有该用户');
+          res.redirect('/');
+          return;
+        }
+
+        const query = client.query('select password from UserInfo where name="'+username+'"');
+        // Stream results back one row at a time
+        query.on('row', (row) => {
+          if(row.password===req.body.password){
+              req.session.islogin=req.body.username;
+              res.locals.islogin=req.session.islogin;
+              res.cookie('islogin',res.locals.islogin,{maxAge:60000});
+              res.redirect('/home');
+              return;
+          }
+          return;
         });
+        // After all data is returned, close connection and return results
+        query.on('end', (err) => {
+          if(err) {
+            res.send('没有该用户');
+            res.redirect('/');
+            return;
+          }
+        });
+
+       });
     });
 
 router.get('/logout', function(req, res) {
