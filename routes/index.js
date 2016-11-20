@@ -56,37 +56,42 @@ router.route('/login')
     .post(function(req, res) {
         client=usr.connect();
 
-        username = req.body.username
+        const username = req.body.username;
+        const password = req.body.password;
+        found = false;
         pg.connect(connectionString, (err, client, done) => {
         // Handle connection errors
         if(err) {
-          res.send('没有该用户');
+          console.log('A db connect error occurred: ' + err);
           res.redirect('/');
           return;
         }
 
-        const query = client.query('select password from UserInfo where name="'+username+'"');
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-          if(row.password===req.body.password){
-              req.session.islogin=req.body.username;
-              res.locals.islogin=req.session.islogin;
-              res.cookie('islogin',res.locals.islogin,{maxAge:60000});
+        queryStr = "select * from UserInfo where name='"+username+"' and password ='"+password+"';";
+        console.log("queryStr " + queryStr);
+        client.query(queryStr, function(err, rows) {
+            if (err) {
+                console.log('A db query error occurred: ' + err);
+                res.redirect('/');
+                return;
+            }
+            console.log('rows found :)' + rows);
+            if (rows && rows.length){
+              console.log('user found :)');
+              req.session.islogin=username;
+              res.locals.islogin=username;
+              res.cookie('islogin',username,{maxAge:60000});
               res.redirect('/home');
-              return;
-          }
-          return;
-        });
-        // After all data is returned, close connection and return results
-        query.on('end', (err) => {
-          if(err) {
-            res.send('没有该用户');
-            res.redirect('/');
-            return;
-          }
+            }
+            else{
+              console.log('user not found');
+              res.redirect('/');
+            }
         });
 
-       });
+      });
+
+
     });
 
 router.get('/logout', function(req, res) {
@@ -155,14 +160,15 @@ router.route('/reg')
         res.render('reg',{title:'注册'});
     })
     .post(function(req,res) {
-        client = usr.connect();
-        console.log("get register poster")
-        usr.insertFun(client,req.body.username, req.body.password2, function (err) {
-              if(err) res.send('该用户名已经存在，请返回重新注册');;
-
-            //  res.send('注册成功');
-              res.redirect('/');
-        });
+      pg.connect(connectionString, (err, client, done) => {
+          name = req.body.username;
+          pw = req.body.password2;
+          queryStr = "insert into UserInfo values('"+name+"','"+pw+"')";
+          console.log(queryStr);
+          client.query(queryStr);
+          if(err) res.send('该用户名已经存在，请返回重新注册');
+          res.redirect('/');
+      });
     });
 
 module.exports = router;
