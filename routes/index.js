@@ -1,9 +1,31 @@
-var express = require('express');
-var router = express.Router();
-var usr=require('../db/dbConnect');
-var url = require('url');
+const express = require('express');
+const router = express.Router();
+
+const usr=require('../db/dbConnect');
+const url = require('url');
+
+const pg = require('pg');
+const path = require('path');
+const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/biblereading';
+
 
 var homeTitle = "读经签到"
+
+router.get('/pg', function(req, res) {
+   console.log("Hello World");
+
+   pg.connect(connectionString, (err, client, done) => {
+   // Handle connection errors
+   if(err) {
+     done();
+     console.log(err);
+     return res.status(500).json({success: false, data: err});
+   }
+   // SQL Query > Insert Data
+   
+  });
+
+});
 
 /* GET home page. */
 router.get('/', function(req, res) {
